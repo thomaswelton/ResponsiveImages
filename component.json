@@ -1,0 +1,11 @@
+{
+  "name": "ResponsiveImages",
+  "version": "0.0.0",
+  "main": "responsiveImages.js",
+  "dependencies": {
+
+  },
+  "ignore": [
+    "**/*.coffee"
+  ]
+}
