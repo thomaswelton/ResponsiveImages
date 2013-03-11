@@ -14,7 +14,18 @@ module.exports = (grunt) =>
 
 				tasks: 'coffee'
 
+		uglify:
+			all:
+				files:
+					'responsiveImages.min.js': ['responsiveImages.js']
+
+				options:
+					banner: "/*!\nresponsiveImages v<%= pkg.version %>\nAuthor: thomaswelton@me.com\n*/\n",
+					beautify:
+						ascii_only: true
+
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
+	grunt.loadNpmTasks 'grunt-contrib-uglify'
 
 	grunt.registerTask 'default', ['coffee']
