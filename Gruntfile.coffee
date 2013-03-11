@@ -28,4 +28,4 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 
-	grunt.registerTask 'default', ['coffee']
+	grunt.registerTask 'default', ['coffee', 'uglify']
