@@ -29,9 +29,10 @@ class responsiveImages
 				@paths[key] = values
 
 	getOptimisedSrc: (img) =>
-		src = img.getAttribute 'data-src'
-		paths = @mergeSizes @paths[src], @getAttrPaths(img)
+		key = img.getAttribute 'data-id'
+		paths = @mergeSizes @paths[key], @getAttrPaths(img)
 
+		src = img.getAttribute 'data-src'
 		for size, imgSrc of paths
 			src = imgSrc if @clientWidth > size
 
