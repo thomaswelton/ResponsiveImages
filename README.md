@@ -13,7 +13,15 @@ Key features:
 * Lightweight 
 * Good browser support for your IEs 6+
 
-### Useage
+### Installation
+
+Drop responsiveImages.js into your head
+
+```html
+<script src="responsiveImages.js"></script>
+```
+
+### Usage
 
 Lets say you currently have an image like this on your page
 
