@@ -23,9 +23,8 @@
 		<script>
 		responsiveImages.setPaths({
 			"darkImage": {
-			  0: "images/dark-320.png",
-			  320: "images/dark-640.png",
-			  640: "images/dark.png"
+			  320: "images/dark-320.png",
+			  640: "images/dark-640.png"
 			}
 		});
 		</script>
@@ -39,10 +38,10 @@
 			<img src="images/dark.png" alt="Dark image" width=960 height=960>
 		</noscript>
 
-		<img src="image://" onerror="responsiveImages.injectImage(this)" data-src="images/cat.jpg" alt="Cat" width=960 height=960
-			data-path-0="images/cat-320.jpg"
-			data-path-320="images/cat-640.jpg"
-			data-path-640="images/cat.jpg"
+		<img src="image://" onerror="responsiveImages.injectImage(this)" alt="Cat" width=960 height=960
+			data-src="images/cat.jpg"
+			data-src-320="images/cat-320.jpg"
+			data-src-640="images/cat-640.jpg"
 		>
 		<noscript>
 			<img src="images/cat.jpg" alt="Cat" width=960 height=960>

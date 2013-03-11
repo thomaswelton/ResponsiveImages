@@ -12,9 +12,6 @@ class responsiveImages
 	constructor: () ->
 		@clientWidth = document.documentElement.clientWidth
 
-		## Data attribute name used to specify image paths 
-		@attrPathId = "data-path-"
-
 		@paths = {}
 		@images = []
 
@@ -28,15 +25,16 @@ class responsiveImages
 			else
 				@paths[key] = values
 
+		return
+
 	getOptimisedSrc: (img) =>
 		key = img.getAttribute 'data-id'
 		paths = @mergeSizes @paths[key], @getAttrPaths(img)
 
-		src = img.getAttribute 'data-src'
 		for size, imgSrc of paths
-			src = imgSrc if @clientWidth > size
-
-		return src
+			return imgSrc if @clientWidth <= size
+		
+		return img.getAttribute 'data-src'
 
 	mergeSizes: (baseJson, newJson) ->
 		merged = newJson
@@ -64,8 +62,8 @@ class responsiveImages
 		src = img.getAttribute 'data-src'
 
 		sizeData = {}
-		for attribute in img.attributes when attribute.name.indexOf(@attrPathId) is 0
-			size = attribute.name.substr @attrPathId.length
+		for attribute in img.attributes when attribute.name.indexOf('data-src-') is 0
+			size = attribute.name.substr "data-src-".length
 			path = attribute.value
 
 			sizeData[size] = path
@@ -83,11 +81,15 @@ class responsiveImages
 		## Optimize the image
 		@optimizeImage img
 
+		return
+
 	onresize: () =>
 		if @timeout?
 			clearTimeout @timeout
 		## Throttle the resize event to only fire 250ms after the last resize event
 		@timeout = setTimeout @updateImages, 250
+
+		return
 
 
 ## Expose this to the global name space
