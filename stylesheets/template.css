@@ -1,0 +1,18 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/thomaswelton\/Sites\/ResponsiveImages\/stylesheets\/template\.scss}line{font-family:\000031}}
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/thomaswelton\/Sites\/ResponsiveImages\/stylesheets\/template\.scss}line{font-family:\000036}}
+body {
+  min-width: 320px;
+  max-width: 960px;
+  margin: auto;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/thomaswelton\/Sites\/ResponsiveImages\/stylesheets\/template\.scss}line{font-family:\0000312}}
+img {
+  width: 100%;
+  height: auto;
+}

@@ -2,8 +2,34 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="stylesheets/template.css">
+
+		<script src="scripts/components/responsiveImages/responsiveImages.js"></script>
+		<script>
+		responsiveImages.setPaths({
+			"darkImage": {
+			  320: "images/dark-320.png",
+			  640: "images/dark-640.png"
+			}
+		});
+		</script>
+
 	</head>
 	<body>
 		<h1>Responsive Images</h1>
+
+		<img data-id="darkImage" src="image://" onerror="responsiveImages.injectImage(this)" data-src="images/dark.png" alt="Dark image" width=960 height=960>
+		<noscript>
+			<img src="images/dark.png" alt="Dark image" width=960 height=960>
+		</noscript>
+
+		<img src="image://" onerror="responsiveImages.injectImage(this)" alt="Cat" width=960 height=960
+			data-src="images/cat.jpg"
+			data-src-320="images/cat-320.jpg"
+			data-src-640="images/cat-640.jpg"
+		>
+		<noscript>
+			<img src="images/cat.jpg" alt="Cat" width=960 height=960>
+		</noscript>
+
 	</body>
 </html>
