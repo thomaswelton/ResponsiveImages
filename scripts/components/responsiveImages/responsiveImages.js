@@ -32,38 +32,34 @@
 
       this.setPaths = __bind(this.setPaths, this);
       this.clientWidth = document.documentElement.clientWidth;
-      this.attrPathId = "data-path-";
       this.paths = {};
       this.images = [];
       addEvent(window, 'resize', this.onresize);
     }
 
     responsiveImages.prototype.setPaths = function(json) {
-      var key, values, _results;
-      _results = [];
+      var key, values;
       for (key in json) {
         values = json[key];
         if (this.paths[key] != null) {
-          _results.push(this.paths[key] = this.mergeSizes(this.paths[key], values));
+          this.paths[key] = this.mergeSizes(this.paths[key], values);
         } else {
-          _results.push(this.paths[key] = values);
+          this.paths[key] = values;
         }
       }
-      return _results;
     };
 
     responsiveImages.prototype.getOptimisedSrc = function(img) {
-      var imgSrc, key, paths, size, src;
+      var imgSrc, key, paths, size;
       key = img.getAttribute('data-id');
       paths = this.mergeSizes(this.paths[key], this.getAttrPaths(img));
-      src = img.getAttribute('data-src');
       for (size in paths) {
         imgSrc = paths[size];
-        if (this.clientWidth > size) {
-          src = imgSrc;
+        if (this.clientWidth <= size) {
+          return imgSrc;
         }
       }
-      return src;
+      return img.getAttribute('data-src');
     };
 
     responsiveImages.prototype.mergeSizes = function(baseJson, newJson) {
@@ -103,10 +99,10 @@
       _ref = img.attributes;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         attribute = _ref[_i];
-        if (!(attribute.name.indexOf(this.attrPathId) === 0)) {
+        if (!(attribute.name.indexOf('data-src-') === 0)) {
           continue;
         }
-        size = attribute.name.substr(this.attrPathId.length);
+        size = attribute.name.substr("data-src-".length);
         path = attribute.value;
         sizeData[size] = path;
       }
@@ -117,14 +113,14 @@
       img.onerror = null;
       img.removeAttribute('onerror');
       this.images.push(img);
-      return this.optimizeImage(img);
+      this.optimizeImage(img);
     };
 
     responsiveImages.prototype.onresize = function() {
       if (this.timeout != null) {
         clearTimeout(this.timeout);
       }
-      return this.timeout = setTimeout(this.updateImages, 250);
+      this.timeout = setTimeout(this.updateImages, 250);
     };
 
     return responsiveImages;
