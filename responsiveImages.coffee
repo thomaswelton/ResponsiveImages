@@ -88,7 +88,6 @@ class responsiveImages
 			clearTimeout @timeout
 		## Throttle the resize event to only fire 250ms after the last resize event
 		@timeout = setTimeout @updateImages, 250
-
 		return
 
 
