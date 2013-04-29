@@ -3,7 +3,7 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   addEvent = function(elem, type, eventHandle) {
-    if (!(elem != null)) {
+    if (elem == null) {
       return;
     }
     if (elem.addEventListener) {
@@ -16,22 +16,14 @@
   };
 
   responsiveImages = (function() {
-
     function responsiveImages() {
       this.onresize = __bind(this.onresize, this);
-
       this.injectImage = __bind(this.injectImage, this);
-
       this.getAttrPaths = __bind(this.getAttrPaths, this);
-
       this.updateImages = __bind(this.updateImages, this);
-
       this.optimizeImage = __bind(this.optimizeImage, this);
-
       this.getOptimisedSrc = __bind(this.getOptimisedSrc, this);
-
-      this.setPaths = __bind(this.setPaths, this);
-      this.clientWidth = document.documentElement.clientWidth;
+      this.setPaths = __bind(this.setPaths, this);      this.clientWidth = document.documentElement.clientWidth;
       this.className = 'responsiveImage';
       this.attrPathId = "data-path-";
       this.paths = {};
@@ -41,6 +33,7 @@
 
     responsiveImages.prototype.setPaths = function(json) {
       var key, values, _results;
+
       _results = [];
       for (key in json) {
         values = json[key];
@@ -55,10 +48,11 @@
 
     responsiveImages.prototype.mergeSizes = function(baseJson, newJson) {
       var merged, size, src;
+
       merged = newJson;
       for (size in baseJson) {
         src = baseJson[size];
-        if (!(merged[size] != null)) {
+        if (merged[size] == null) {
           merged[size] = src;
         }
       }
@@ -67,6 +61,7 @@
 
     responsiveImages.prototype.getOptimisedSrc = function(img) {
       var imgSrc, paths, size, src;
+
       src = img.getAttribute('data-src');
       paths = this.mergeSizes(this.paths[src], this.getAttrPaths(img));
       for (size in paths) {
@@ -80,6 +75,7 @@
 
     responsiveImages.prototype.optimizeImage = function(img) {
       var optimsisedSrc;
+
       optimsisedSrc = this.getOptimisedSrc(img);
       if (img.src !== optimsisedSrc) {
         img.src = optimsisedSrc;
@@ -88,6 +84,7 @@
 
     responsiveImages.prototype.updateImages = function() {
       var img, _i, _len, _ref;
+
       this.clientWidth = document.documentElement.clientWidth;
       _ref = this.images;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -98,6 +95,7 @@
 
     responsiveImages.prototype.getAttrPaths = function(img) {
       var attribute, path, size, sizeData, src, _i, _len, _ref;
+
       src = img.getAttribute('data-src');
       sizeData = {};
       _ref = img.attributes;
