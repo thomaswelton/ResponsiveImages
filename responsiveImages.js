@@ -32,34 +32,25 @@
 
       this.setPaths = __bind(this.setPaths, this);
       this.clientWidth = document.documentElement.clientWidth;
+      this.className = 'responsiveImage';
+      this.attrPathId = "data-path-";
       this.paths = {};
       this.images = [];
       addEvent(window, 'resize', this.onresize);
     }
 
     responsiveImages.prototype.setPaths = function(json) {
-      var key, values;
+      var key, values, _results;
+      _results = [];
       for (key in json) {
         values = json[key];
         if (this.paths[key] != null) {
-          this.paths[key] = this.mergeSizes(this.paths[key], values);
+          _results.push(this.paths[key] = this.mergeSizes(this.paths[key], values));
         } else {
-          this.paths[key] = values;
+          _results.push(this.paths[key] = values);
         }
       }
-    };
-
-    responsiveImages.prototype.getOptimisedSrc = function(img) {
-      var imgSrc, key, paths, size;
-      key = img.getAttribute('data-id');
-      paths = this.mergeSizes(this.paths[key], this.getAttrPaths(img));
-      for (size in paths) {
-        imgSrc = paths[size];
-        if (this.clientWidth <= size) {
-          return imgSrc;
-        }
-      }
-      return img.getAttribute('data-src');
+      return _results;
     };
 
     responsiveImages.prototype.mergeSizes = function(baseJson, newJson) {
@@ -72,6 +63,19 @@
         }
       }
       return merged;
+    };
+
+    responsiveImages.prototype.getOptimisedSrc = function(img) {
+      var imgSrc, paths, size, src;
+      src = img.getAttribute('data-src');
+      paths = this.mergeSizes(this.paths[src], this.getAttrPaths(img));
+      for (size in paths) {
+        imgSrc = paths[size];
+        if (this.clientWidth > size) {
+          src = imgSrc;
+        }
+      }
+      return src;
     };
 
     responsiveImages.prototype.optimizeImage = function(img) {
@@ -99,10 +103,10 @@
       _ref = img.attributes;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         attribute = _ref[_i];
-        if (!(attribute.name.indexOf('data-src-') === 0)) {
+        if (!(attribute.name.indexOf(this.attrPathId) === 0)) {
           continue;
         }
-        size = attribute.name.substr("data-src-".length);
+        size = attribute.name.substr(this.attrPathId.length);
         path = attribute.value;
         sizeData[size] = path;
       }
@@ -110,17 +114,18 @@
     };
 
     responsiveImages.prototype.injectImage = function(img) {
-      img.onerror = null;
-      img.removeAttribute('onerror');
+      img.onload = null;
+      img.removeAttribute('onload');
+      img.className += ' ' + this.className;
       this.images.push(img);
-      this.optimizeImage(img);
+      return this.optimizeImage(img);
     };
 
     responsiveImages.prototype.onresize = function() {
       if (this.timeout != null) {
         clearTimeout(this.timeout);
       }
-      this.timeout = setTimeout(this.updateImages, 250);
+      return this.timeout = setTimeout(this.updateImages, 250);
     };
 
     return responsiveImages;
