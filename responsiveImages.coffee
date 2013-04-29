@@ -12,10 +12,11 @@ class responsiveImages
 	constructor: () ->
 		@clientWidth = document.documentElement.clientWidth
 
+		@className = 'responsiveImage'
+		@attrPathId = "data-path-"
 		@paths = {}
 		@images = []
 
-		## Add resize event to optimize images
 		addEvent window, 'resize', @onresize
 
 	setPaths: (json) =>
@@ -25,23 +26,21 @@ class responsiveImages
 			else
 				@paths[key] = values
 
-		return
-
-	getOptimisedSrc: (img) =>
-		key = img.getAttribute 'data-id'
-		paths = @mergeSizes @paths[key], @getAttrPaths(img)
-
-		for size, imgSrc of paths
-			return imgSrc if @clientWidth <= size
-		
-		return img.getAttribute 'data-src'
-
 	mergeSizes: (baseJson, newJson) ->
 		merged = newJson
 		for size, src of baseJson
 			merged[size] = src if !merged[size]?
 
 		return merged
+
+	getOptimisedSrc: (img) =>
+		src = img.getAttribute 'data-src'
+		paths = @mergeSizes @paths[src], @getAttrPaths(img)
+
+		for size, imgSrc of paths
+			src = imgSrc if @clientWidth > size
+
+		return src
 
 	optimizeImage: (img) =>
 		optimsisedSrc = @getOptimisedSrc img
@@ -53,17 +52,17 @@ class responsiveImages
 		## Recalculate the browser width
 		@clientWidth = document.documentElement.clientWidth
 
+		## Loops over all .responsiveImage elements and optimizes them
 		@optimizeImage img for img in @images
 		
 		return
 
-	## Get optimized images paths form img elements from data attributes
 	getAttrPaths: (img) =>
 		src = img.getAttribute 'data-src'
 
 		sizeData = {}
-		for attribute in img.attributes when attribute.name.indexOf('data-src-') is 0
-			size = attribute.name.substr "data-src-".length
+		for attribute in img.attributes when attribute.name.indexOf(@attrPathId) is 0
+			size = attribute.name.substr @attrPathId.length
 			path = attribute.value
 
 			sizeData[size] = path
@@ -71,25 +70,20 @@ class responsiveImages
 		return sizeData
 
 	injectImage: (img) =>
-		## Remove the on error function that triggered this function
-		img.onerror = null
-		img.removeAttribute 'onerror'
+		## Remove the on load function that triggered this function
+		img.onload = null
+		img.removeAttribute 'onload'
+		img.className += ' ' + @className
 
-		## Add this to the array of responsive images
 		@images.push img
 
 		## Optimize the image
 		@optimizeImage img
 
-		return
-
 	onresize: () =>
 		if @timeout?
 			clearTimeout @timeout
-		## Throttle the resize event to only fire 250ms after the last resize event
+
 		@timeout = setTimeout @updateImages, 250
-		return
 
-
-## Expose this to the global name space
 @responsiveImages = new responsiveImages()
