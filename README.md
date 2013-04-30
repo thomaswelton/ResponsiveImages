@@ -35,6 +35,7 @@ Using responsiveImages.js this can achieved by making the following alterations 
 ```html
 <img src="/favicon.ico" alt="Some image" width=1200 height=1200
      data-src="image.jpg"
+     style="visibility:hidden"
 	 onload="responsiveImages.injectImage(this)" 
      data-src-320="image-320.jpg"
      data-src-640="image-640.jpg">
@@ -50,6 +51,7 @@ The duplicate ``<img>`` tag was edited to be used by responsiveIamges.js
 Changes:
 * The ``src`` attribute was changed to ``src="/favicon.ico"``
 * Attribute ``data-src`` added whose value was the original image ``src``
+* Added inline style `visibility:hidden`, removed when optimized
 * onload event added to the image that calls the injectImage method of responsiveImages
 * ``data-src-*`` attributes added to specify the image paths to be used for browsers of various widths. The integer specifies the largest width where the optimized values should be loaded for. For browsers 0px-320px wide ``data-src-320`` will be loaded, 321px-640px wide ``data-src-640`` will be used, browsers wider than 641px will get the ``data-src`` image
 

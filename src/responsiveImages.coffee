@@ -44,7 +44,15 @@ class responsiveImages
 
 	optimizeImage: (img) =>
 		optimsisedSrc = @getOptimisedSrc img
-		img.src = optimsisedSrc if img.src isnt optimsisedSrc
+
+		if img.src isnt optimsisedSrc
+			if img.style.visibility is "hidden"
+				img.onload = () ->
+					## Finally show the optimised image
+					this.style.visibility = "visible"
+					this.onload = null
+
+			img.src = optimsisedSrc
 
 		return
 

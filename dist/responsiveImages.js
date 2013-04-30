@@ -78,6 +78,12 @@
 
       optimsisedSrc = this.getOptimisedSrc(img);
       if (img.src !== optimsisedSrc) {
+        if (img.style.visibility === "hidden") {
+          img.onload = function() {
+            this.style.visibility = "visible";
+            return this.onload = null;
+          };
+        }
         img.src = optimsisedSrc;
       }
     };
