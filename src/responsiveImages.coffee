@@ -51,6 +51,8 @@ class responsiveImages
 					## Finally show the optimised image
 					this.style.visibility = "visible"
 					this.onload = null
+			img.removeAttribute 'width'
+			img.removeAttribute 'height'
 
 			img.src = optimsisedSrc
 
