@@ -73,18 +73,17 @@
       return src;
     };
 
-    responsiveImages.prototype.optimizeImage = function(img) {
-      var optimsisedSrc;
+    responsiveImages.prototype.optimizeImage = function(img, onload) {
+      var optimsisedSrc, _ref;
 
       optimsisedSrc = this.getOptimisedSrc(img);
       if (img.src !== optimsisedSrc) {
-        if (img.style.visibility === "hidden") {
-          img.onload = function() {
-            this.style.visibility = "visible";
-            return this.onload = null;
-          };
-        }
+        img.removeAttribute('width');
+        img.removeAttribute('height');
+        img.onload = onload;
         img.src = optimsisedSrc;
+      } else {
+        (onload() === (_ref = typeof onload) && _ref === 'function');
       }
     };
 
@@ -122,7 +121,9 @@
       img.removeAttribute('onload');
       img.className += ' ' + this.className;
       this.images.push(img);
-      return this.optimizeImage(img);
+      return this.optimizeImage(img, function() {
+        return this.style.visibility = "visible";
+      });
     };
 
     responsiveImages.prototype.onresize = function() {
