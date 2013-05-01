@@ -42,19 +42,17 @@ class responsiveImages
 
 		return src
 
-	optimizeImage: (img) =>
+	optimizeImage: (img, onload) =>
 		optimsisedSrc = @getOptimisedSrc img
 
 		if img.src isnt optimsisedSrc
-			if img.style.visibility is "hidden"
-				img.onload = () ->
-					## Finally show the optimised image
-					this.style.visibility = "visible"
-					this.onload = null
 			img.removeAttribute 'width'
 			img.removeAttribute 'height'
 
+			img.onload = onload
 			img.src = optimsisedSrc
+		else
+			onload() is typeof onload is 'function'
 
 		return
 
@@ -88,7 +86,10 @@ class responsiveImages
 		@images.push img
 
 		## Optimize the image
-		@optimizeImage img
+		@optimizeImage img, () ->
+			## Finally show the optimised image
+			this.style.visibility = "visible"
+
 
 	onresize: () =>
 		if @timeout?
