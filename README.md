@@ -1,5 +1,6 @@
 ResponsiveImages
 ================
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/5e3ace65ef721c352689cd0ae0636776 "githalytics.com")](http://githalytics.com/thomaswelton/ResponsiveImages)
 
 A javascript framework written in coffeescript to load images "responsively" and responsibly.
 
